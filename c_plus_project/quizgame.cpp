@@ -23,6 +23,7 @@ struct Question {
     }
 };
 
+
 // Quiz function
 void runQuiz(const vector<Question>& quizQuestions, const string& quizName) {
     cout << "\nYou selected " << quizName << " quiz.\n";
@@ -33,7 +34,7 @@ void runQuiz(const vector<Question>& quizQuestions, const string& quizName) {
         question.displayQuestion();
         cout << "Your answer: ";
         cin >> answer;
-        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clear the input buffer
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
         if (question.checkAnswer(answer)) {
             cout << "\nCorrect!!!\n";
