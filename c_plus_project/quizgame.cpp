@@ -95,7 +95,7 @@ int main() {
     string ch;
     cout << "Choose a quiz: C, C++, DSA\n";
     
-    cin << ch;
+    cin >> ch;
     if (ch == "C") {
         runQuiz(cQuiz, "C");
     }
