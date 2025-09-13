@@ -66,6 +66,7 @@ void insertAtNthPosition(Node * head, int value, int index){
     Node * newNode = new Node(value);
     if (index == 0){
         insertAtHead(head, value);
+        return;
     }
     Node * temp = head;
     int i = 0;
