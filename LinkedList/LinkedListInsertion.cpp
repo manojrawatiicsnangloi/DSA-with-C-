@@ -62,31 +62,32 @@ void deleteAtHead(Node * & head){
     delete temp;
 }
 
-void insertAtNthPosition(Node * head, int value, int index){
-    Node * newNode = new Node(value);
-    if (index == 0){
-        insertAtHead(head, value);
-        return;
-    }
-    Node * temp = head;
-    int i = 0;
-    while (temp != nullptr && i < index - 1){
-        temp = temp -> next;
-        i++;
-    }
-    
-    if (temp != nullptr){
-        newNode -> next = temp->next;
-        temp -> next = newNode;
-    }
-    else{
-        delete newNode;
-    }
-    
+void insertAtNthPosition(Node * &head, int value, int index){
+  if (index == 0){
+      insertAtHead(head, value);
+      return;
+  }
+  Node * newNode = new Node(value);
+  int i = 0;
+  Node * temp = head;
+  while (temp != nullptr && i < index - 1){
+      temp = temp-> next;
+      i++;
+  }if (temp != nullptr){
+      newNode -> next = temp -> next;
+      temp -> next = newNode;
+  }
+  else {
+      delete newNode;
+  }
 }
 
 void deleteAtNthPosition(Node *&head, int index){
     if (index == 0){
+        deleteAtHead(head);
+        return;
+    }
+    if (head -> next == nullptr){
         deleteAtHead(head);
         return;
     }
@@ -107,24 +108,26 @@ void deleteAtNthPosition(Node *&head, int index){
 
 int main() {
        Node * head = nullptr;
-       insertAtHead(head, 1);
-       insertAtEnd(head, 2);
-       insertAtNthPosition(head, 2, 3);
-       insertAtNthPosition(head, 3, 4);
-       insertAtEnd(head, 5);
-       insertAtEnd(head, 6);
-       insertAtEnd(head, 7);
-       insertAtEnd(head, 8);
-       insertAtEnd(head, 9);
-       insertAtEnd(head, 10);
-       insertAtEnd(head, 11);
-       
+      insertAtHead(head, 1);
+      insertAtEnd(head, 2);
+      insertAtNthPosition(head, 3, 2);
+      insertAtNthPosition(head, 4, 3);
+      insertAtEnd(head, 5);
+      insertAtEnd(head, 6);
+      insertAtEnd(head, 7);
+      insertAtEnd(head, 8);
+      insertAtEnd(head, 9);
+      insertAtEnd(head, 10);
+      insertAtEnd(head, 11);
+      printLinkedList(head);
+      deleteAtHead(head);
+      printLinkedList(head);
+      deleteAtEnd(head);
+      printLinkedList(head);
+      deleteAtNthPosition(head, 3);
+      
        printLinkedList(head);
-       deleteAtHead(head);
-       printLinkedList(head);
-       deleteAtEnd(head);
-       printLinkedList(head);
-       deleteAtNthPosition(head, 3);
+           insertAtNthPosition(head, 4, 3);
        printLinkedList(head);
     return 0;
 }
