@@ -105,12 +105,22 @@ void deleteAtNthPosition(Node *&head, int index){
     }
 }
 
+Node * reverseRecursive(Node* head){
+    if (head == nullptr || head -> next == nullptr){
+        return head;
+    }
+    
+    Node * newHead = reverseRecursive(head->next);
+    head-> next -> next = head;
+    head-> next = nullptr;
+    return newHead;
+}
 int main() {
        Node * head = nullptr;
        insertAtHead(head, 1);
        insertAtEnd(head, 2);
-       insertAtNthPosition(head, 2, 3);
-       insertAtNthPosition(head, 3, 4);
+       insertAtNthPosition(head, 3, 2);
+       insertAtNthPosition(head, 4, 3);
        insertAtEnd(head, 5);
        insertAtEnd(head, 6);
        insertAtEnd(head, 7);
@@ -125,6 +135,8 @@ int main() {
        deleteAtEnd(head);
        printLinkedList(head);
        deleteAtNthPosition(head, 3);
+       printLinkedList(head);
+       head = reverseRecursive(head);
        printLinkedList(head);
     return 0;
 }
