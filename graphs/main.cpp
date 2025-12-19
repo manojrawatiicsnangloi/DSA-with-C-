@@ -1,45 +1,76 @@
+// #include <iostream>
+// #include <list>
+// #include <unordered_map>
+// #include <string>
+// using namespace std;
+
+// class Graph {
+//     unordered_map<string, list<string>> adj;
+
+// public:
+//     void addEdge(const string& u, const string& v) {
+//         adj[u].push_back(v);
+//         adj[v].push_back(u);
+//     }
+
+//     void printAdjList() {
+//         for (auto &pair : adj) {
+//             cout << pair.first << " : ";
+//             for (auto &neighbour : pair.second) {
+//                 cout << neighbour << " ";
+//             }
+//             cout << endl;
+//         }
+//     }
+// };
+
+// int main() {
+//     Graph g;
+
+//     g.addEdge("n1", "n2");
+//     g.addEdge("n2", "n3");
+//     g.addEdge("n2", "n4");
+//     g.addEdge("n3", "n4");
+//     g.addEdge("n3", "n5");
+
+//     g.printAdjList();
+
+//     return 0;
+// }
 
 
 #include <iostream>
 #include <list>
 #include <unordered_map>
-#include <string>
 using namespace std;
 
-class Graph {
-    unordered_map<string, list<string>> adj;
-
-public:
-    void addEdge(const string& u, const string& v) {
-        adj[u].push_back(v);
-        adj[v].push_back(u);
+class Graph{
+    private: unordered_map<string, list<string>> G;
+    public: addEdge(string u, string v){
+        G[u].push_back(v);
+        G[v].push_back(u);
     }
 
-    void printAdjList() {
-        for (auto &pair : adj) {
-            cout << pair.first << " : ";
-            for (auto &neighbour : pair.second) {
-                cout << neighbour << " ";
+    printGraph(){
+        for (auto &i : G){
+            cout << i.first << " : ";
+            for (auto &j : i.second){
+                cout << j << "  ";
             }
-            cout << endl;
+            cout << "\n";
         }
     }
 };
-
-int main() {
+int main(){
     Graph g;
-
-    g.addEdge("n1", "n2");
-    g.addEdge("n2", "n3");
-    g.addEdge("n2", "n4");
-    g.addEdge("n3", "n4");
-    g.addEdge("n3", "n5");
-
-    g.printAdjList();
-
+    g.addEdge("A", "B");
+    g.addEdge("B", "C");
+    g.addEdge("B", "D");
+    g.addEdge("C", "D");
+    g.addEdge("E", "C");
+    g.printGraph();
     return 0;
 }
-
 
 // // Online C++ compiler to run C++ program online
 // #include <iostream>
