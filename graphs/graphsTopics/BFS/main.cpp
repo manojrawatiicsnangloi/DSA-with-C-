@@ -30,44 +30,66 @@ public:
             cout << "\n";
         }
     }
-    
-    void BFS(string start){
-        unordered_map <string, bool>visited;
-        queue<string> q;
-        visited[start] = true;
+
+   void BFS(string start){
+        unordered_map <string, bool> v;
+        queue <string> q;
         q.push(start);
-        cout << "starting from node : " <<start << " \n ";
-        while(!q.empty()){
+        v[start] = true;
+        while (!q.empty()){
             string node = q.front();
             cout << node << " ";
             q.pop();
-            for (const auto & n : G[node]){
-                if (!visited[n.first]){
-                    visited[n.first]  = true;
-                    q.push(n.first);
+            for (auto &i: G[node]){
+                if(!v[i.first]){
+                    q.push(i.first);
+                    v[i.first] = true;
                 }
             }
         }
-    }
-};
+   }
 
+   void DFSHelper(string node, unordered_map <string, bool> &v){
+    v[node] = true;
+    cout << node << " ";
+    for (auto &i:G[node]){
+        if (!v[i.first]){
+            DFSHelper(i.first, v);
+        }
+    } 
+   }
+
+   void DFS(const string& start) {
+
+    cout << " DFS ";
+    unordered_map<string, bool> visited;
+    DFSHelper(start, visited);
+}
+
+};
 int main() {
     Graph G;
 
-    // Adding edges to the graph
-    G.addEdge("A", "B", 4);
+    // A wider + deeper graph (better for BFS vs DFS)
+    G.addEdge("A", "B", 2);
     G.addEdge("A", "C", 4);
-    G.addEdge("B", "C", 2);
-    G.addEdge("B", "E", 1);
-    G.addEdge("C", "D", 1);
-    G.addEdge("D", "F", 1);
-    G.addEdge("F", "E", 1);
+    G.addEdge("A", "D", 3);
+
+    G.addEdge("B", "E", 9);
+    G.addEdge("B", "F", 6);
+
+    G.addEdge("F", "H", 7);
+
+    G.addEdge("D", "G", 9);
 
     // Print the graph
     G.printGraph();
 
-    // Perform BFS starting from node "A"
+    cout << "BFS  ";
     G.BFS("A");
+
+    cout << "\nDFS  ";
+    G.DFS("A");
 
     return 0;
 }
