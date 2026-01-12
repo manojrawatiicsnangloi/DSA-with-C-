@@ -47,9 +47,8 @@ class Graph{
         pq.push({0, src});
 
         while (!pq.empty()) {
-            pair<int, string> top = pq.top();  // ✅ FIX
+            pair<int, string> top = pq.top();  // FIX
             pq.pop();
-
             int currDist = top.first;
             string node = top.second;
 
@@ -71,7 +70,6 @@ class Graph{
             cout << src << " -> " << i.first << " = " << i.second << "\n";
         }
     }
-
   // Perform BFS (Level Order Traversal)
   
 };
