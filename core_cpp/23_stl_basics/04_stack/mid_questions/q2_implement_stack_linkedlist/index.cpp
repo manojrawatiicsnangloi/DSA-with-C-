@@ -12,7 +12,8 @@ class Node {
 
 class Stack{
     private: Node * top;
-    public: Stack(){
+    public:
+     Stack(){
         top = nullptr;
     }
     bool isEmpty(){
@@ -38,9 +39,26 @@ class Stack{
         }
         return top -> data;
     }
+    void display(){
+        Node * temp = top;
+        while (temp != nullptr){
+            std::cout << temp -> data << " ";
+            temp = temp -> next;
+        }
+        std::cout << std::endl;
+    }
 };
 
 int main(){
+  Stack s;
+    s.push(1);
+    s.push(2);
+    s.push(3);
+    s.push( 4);
+    s.display();
+       s.pop();
+    s.display();
 
+    std::cout << "Top Element: " << s.peek() << std::endl;
     return 0;
 }
