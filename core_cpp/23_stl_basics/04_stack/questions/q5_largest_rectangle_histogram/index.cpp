@@ -1,43 +1,30 @@
-// q6_min_stack.cpp
-// q9_stock_span_problem.cpp
-// q10_largest_rectangle_histogram.cpp
-
-// Then optionally:
-
-// q7_sort_stack.cpp
-// q8_reverse_stack.cpp
-
 #include <iostream>
 #include <vector>
-#include <stack>
 
-std::vector<int> stockSpanc(std::vector<int> prices){
-    int n = prices.size();
-    std::vector<int> span(n);
-    std::stack<int> st; // store index
-     for(int i = 0; i < n; i++) {
-        while(!st.empty() && prices[st.top()] <= prices[i]) {
-             st.pop();
+int getMaxArea(std::vector<int> arr){
+    int size = arr.size();
+    int max_area = 0;
+    for (int i = 0; i < size; i++){
+        int left = i;
+        int height = arr[left];
+        while (left >= 0 && height <= arr[left]){
+            left--;
         }
-        if (st.empty()){
-            span[i] = i + 1;
+        int right = i;
+        while (i < size && height <= arr[right]){
+            right++;
         }
-        else {
-            span[i] = i - st.top();
+        int width = right - left - 1;
+        int area = width * height;
+        if (area == 20){
+            std::cout << "left : " << left << " Right : " << right << " Index " << i << "\n";
         }
-
-        st.push(i);
-     }
-     return span;
-}
-
-
-int main(){
-    std::vector<int> prices = {100,80,60,70,60,75,85};
-    std::vector<int> result = stockSpanc(prices);
-
-    for (int i : result){
-        std:: cout << i << " ";
+        max_area = std::max(area, max_area); 
     }
+    return max_area;
+} 
+int main(){
+    std::vector<int> arr = {2, 1, 5, 6, 2, 3};
+    std::cout << getMaxArea(arr);
     return 0;
 }
