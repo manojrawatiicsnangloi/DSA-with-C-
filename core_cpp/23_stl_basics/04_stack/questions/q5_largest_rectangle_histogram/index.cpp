@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <stack>
 
 int getMaxArea(std::vector<int> arr){
     int size = arr.size();
@@ -23,8 +24,41 @@ int getMaxArea(std::vector<int> arr){
     }
     return max_area;
 } 
+
+int getMaxAreaOptimize(std::vector<int>& arr) {
+    int n = arr.size();
+    std::stack<int> st;
+    int max_area = 0;
+
+    for (int i = 0; i <= n; i++) {
+        int height = (i == n) ? 0 : arr[i];
+
+        while (!st.empty() && height < arr[st.top()]) {
+            int h = arr[st.top()];
+            st.pop();
+
+            int right = i;
+            int left = st.empty() ? -1 : st.top();
+
+            int width = right - left - 1;
+            int area = h * width;
+
+            max_area = std::max(max_area, area);
+            if (i == 1){
+                std::cout << "max area" << max_area << "\n";
+            }
+        }
+
+        st.push(i);
+    }
+
+    return max_area;
+}
 int main(){
-    std::vector<int> arr = {2, 1, 5, 6, 2, 3};
-    std::cout << getMaxArea(arr);
+    std::vector<int> arr = {2, 1, 1};
+
+
+    std::cout << getMaxAreaOptimize(arr);
+    // std::cout << getMaxArea(arr);
     return 0;
 }
