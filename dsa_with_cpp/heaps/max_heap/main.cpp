@@ -6,19 +6,14 @@ class MinHeap {
 private:
     vector<int> heap;
 
-    // Restore heap property upwards (recursive)
     void heapifyUp(int i) {
         if (i == 0) return;
-
         int parent = (i - 1) / 2;
-
         if (heap[parent] <= heap[i]) return;
-
         swap(heap[parent], heap[i]);
         heapifyUp(parent);
     }
 
-    // Restore heap property downwards (recursive)
     void heapifyDown(int i) {
         int n = heap.size();
         int left = 2 * i + 1;
@@ -31,7 +26,6 @@ private:
         if (right < n && heap[right] < heap[smallest])
             smallest = right;
 
-        // Base case: heap property satisfied
         if (smallest == i) return;
 
         swap(heap[i], heap[smallest]);
