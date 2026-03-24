@@ -6,12 +6,28 @@ using namespace std;
 class priority_queue{
     private : vector<int> root;
     void heapifyUp(int i){
-        if (i < 0)
+        if (i == 0)
             return;
-        int p = i / 2 - 1;
-        if (root[p] > i){
+        int p = (i - 1) / 2;
+        if (root[p] > root[i]){
             swap(root[p], root[i]);
             heapifyUp(p);
+        }
+    }
+    void heapifyDown(int i){
+        int left = i * 2 + 1;
+        int right = i * 2 + 2;
+        int lowest = i;
+        if (left < root.size() && root[lowest] > root[left]){
+            lowest = left;
+        }
+        
+        if (right < root.size() && root[lowest] > root[right]){
+            lowest = right;
+        }
+        if (lowest != i){
+            swap(root[lowest], root[i]);
+            heapifyDown(lowest);
         }
     }
     public:
@@ -26,6 +42,7 @@ class priority_queue{
         int back = root.back();
         root[0] = back;
         root.pop_back();
+        heapifyDown(0);
     }
 
     bool isEmpty(){
@@ -45,14 +62,9 @@ int main(){
     pq.push(78);
     pq.push(98);
     pq.push(1);
-
     while (!pq.isEmpty()){
-        cout << pq.top() << " ";
+        cout << pq.top() << ", ";
         pq.pop();
     }
-    cout << "Top: " << pq.top() << endl;  // 1
-
-    pq.pop();
-    cout << "Top after pop: " << pq.top() << endl;
     return 0;
 }
