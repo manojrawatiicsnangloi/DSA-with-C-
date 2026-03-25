@@ -1,32 +1,39 @@
 #include <iostream>
-#include <list>
 #include <unordered_map>
+#include <vector>
 using namespace std;
 
-class Graph{
-    private: unordered_map<string, list<string>> G;
-    public: addEdge(string u, string v){
-        G[u].push_back(v);
-        G[v].push_back(u);
+class graphs{
+    private: 
+    unordered_map<string, vector<string>> root;
+     public:void add(string u, string v){
+        root[u].push_back(v);
+        root[v].push_back(u);
     }
 
-    printGraph(){
-        for (auto &i : G){
-            cout << i.first << " : ";
-            for (auto &j : i.second){
-                cout << j << "  ";
-            }
-            cout << "\n";
+  void printGraph(){
+    for (auto &i : root){
+        cout << i.first << " : ";
+        for (int k = 0; k < i.second.size(); k++){
+            cout << i.second[k];
+            if (k != i.second.size() - 1) cout << ", ";
         }
+        cout << "\n";
     }
+}
 };
+
 int main(){
-    Graph g;
-    g.addEdge("A", "B");
-    g.addEdge("B", "C");
-    g.addEdge("B", "D");
-    g.addEdge("C", "D");
-    g.addEdge("E", "C");
-    g.printGraph();
+    graphs gp;
+    gp.add("A","D");
+    gp.add("A","E");
+    gp.add("A","C");
+    gp.add("E","C");
+    gp.add("C","B");
+    gp.add("C","F");
+    gp.add("C","G");
+    gp.add("B","F");
+    gp.add("G","F");
+    gp.printGraph();
     return 0;
 }
