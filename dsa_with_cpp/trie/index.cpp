@@ -61,7 +61,7 @@ int main(){
     Trie t;
     t.insert("apple");
     t.insert("app");
-
+    t.insert("banana");
     cout << t.search("apple") << endl;
     cout << t.search("app") << endl;
     cout << t.search("appl") << endl;
