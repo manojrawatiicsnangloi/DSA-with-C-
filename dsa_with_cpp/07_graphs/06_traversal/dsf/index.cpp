@@ -2,11 +2,10 @@
 #include <iostream>
 #include <unordered_map>
 #include <vector>
-#include <queue>
 
 using namespace std;
 
-class graphs_bsf
+class graphs_dfs
 {
 private:
     unordered_map<string, vector<pair<string, int>>> root;
@@ -50,7 +49,7 @@ public:
 
 int main()
 {
-    graphs_bsf gp;
+    graphs_dfs gp;
 
     gp.addEdge("D", "A", 4);
     gp.addEdge("A", "E", 4);
