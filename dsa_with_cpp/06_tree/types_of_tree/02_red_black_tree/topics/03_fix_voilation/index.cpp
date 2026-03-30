@@ -76,10 +76,10 @@ class RedBlackTree
         y->right = x;
         x->parent = y;
     }
+
 };
 
 int main()
 {
-
     return 0;
 }
