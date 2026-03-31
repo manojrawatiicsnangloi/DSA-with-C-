@@ -80,7 +80,7 @@ class RedBlackTree
     {
         Node *parent = nullptr;
         Node *grand_parent = nullptr;
-        while (root != x && !(x->parent->isBlack) && (!x->isBlack))
+     while (x != root && !x->parent->isBlack)
         {
             parent = x->parent;
             grand_parent = parent->parent;

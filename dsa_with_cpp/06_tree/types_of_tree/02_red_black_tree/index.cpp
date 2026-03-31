@@ -153,19 +153,19 @@ private:
         }
         root->color = BLACK; // root must always be black
     }
-    Node *insert(Node *root, Node *pt)
+    Node *_insert(Node *root, Node *pt)
     {
         if (root == nullptr)
             return pt;
 
         if (pt->data < root->data)
         {
-            root->left = insert(root->left, pt);
+            root->left = _insert(root->left, pt);
             root->left->parent = root;
         }
         else
         {
-            root->right = insert(root->right, pt);
+            root->right = _insert(root->right, pt);
             root->right->parent = root;
         }
 
@@ -189,7 +189,7 @@ public:
     {
         Node *pt = new Node(data);
 
-        root = insert(root, pt);
+        root = _insert(root, pt);
         fixViolation(pt);
     }
 
