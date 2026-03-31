@@ -1,5 +1,5 @@
 #include <iostream>
-
+using namespace std;
 class Node
 {
 public:
@@ -94,6 +94,16 @@ class RedBlackTree
                     uncle->isBlack = true;
                     x = grand_parent;
                 }
+                else{
+                    if (x == parent -> right){
+                        leftRotate(parent);
+                        x = parent;
+                        parent = x -> parent;
+                    }
+                    rightRotate(grand_parent);
+                    std::swap(parent->isBlack, grand_parent->isBlack);
+                    x = parent;
+                }
             }
             else{
                 Node * uncle = grand_parent -> left;
@@ -102,6 +112,16 @@ class RedBlackTree
                     parent -> isBlack = true;
                     uncle -> isBlack = true;
                     x = grand_parent;
+                }
+                else{
+                    if (x == parent -> left){
+                        rightRotate(parent);
+                        x = parent;
+                        parent = x-> parent;
+                    }
+                    leftRotate(grand_parent);
+                    swap(parent->isBlack, grand_parent -> isBlack);
+                    x = parent;
                 }
             }
         }
