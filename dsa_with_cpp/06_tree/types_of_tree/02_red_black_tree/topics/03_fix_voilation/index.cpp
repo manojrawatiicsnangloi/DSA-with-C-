@@ -76,7 +76,36 @@ class RedBlackTree
         y->right = x;
         x->parent = y;
     }
-
+    void fixVoilation(Node *x)
+    {
+        Node *parent = nullptr;
+        Node *grand_parent = nullptr;
+        while (root != x && !(x->parent->isBlack) && (!x->isBlack))
+        {
+            parent = x->parent;
+            grand_parent = parent->parent;
+            if (parent == grand_parent->left)
+            {
+                Node *uncle = grand_parent->right;
+                if (uncle != nullptr && !uncle->isBlack)
+                {
+                    grand_parent->isBlack = false;
+                    parent->isBlack = true;
+                    uncle->isBlack = true;
+                    x = grand_parent;
+                }
+            }
+            else{
+                Node * uncle = grand_parent -> left;
+                if (uncle != nullptr && !uncle -> isBlack){
+                    grand_parent -> isBlack = false;
+                    parent -> isBlack = true;
+                    uncle -> isBlack = true;
+                    x = grand_parent;
+                }
+            }
+        }
+    }
 };
 
 int main()
