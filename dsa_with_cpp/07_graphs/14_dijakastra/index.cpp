@@ -40,7 +40,6 @@ public:
         {
             auto top = pq.top();
             pq.pop();
-
             int currDist = top.first;
             string node = top.second;
 
