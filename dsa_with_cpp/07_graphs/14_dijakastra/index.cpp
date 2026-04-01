@@ -9,6 +9,54 @@ class graphs
 private:
     unordered_map<string, vector<pair<string, int>>> root;
 
+    // void dijkstra(string source)
+    // {
+    //     unordered_map<string, int> dist;
+
+    //     // Initialize distances
+    //     for (auto &i : root)
+    //     {
+    //         dist[i.first] = INT_MAX;
+    //     }
+
+    //     // Min Heap → (distance, node)
+    //     priority_queue<
+    //         pair<int, string>,
+    //         vector<pair<int, string>>,
+    //         greater<pair<int, string>>>
+    //         pq;
+
+    //     dist[source] = 0;
+    //     pq.push({0, source});
+
+    //     while (!pq.empty())
+    //     {
+    //         auto top = pq.top();
+    //         pq.pop();
+    //         int currDist = top.first;
+    //         string node = top.second;
+
+    //         for (auto &nbr : root[node])
+    //         {
+    //             string adjNode = nbr.first;
+    //             int weight = nbr.second;
+
+    //             if (currDist + weight < dist[adjNode])
+    //             {
+    //                 dist[adjNode] = currDist + weight;
+    //                 pq.push({dist[adjNode], adjNode});
+    //             }
+    //         }
+    //     }
+
+    //     // Print result
+    //     cout << "\nShortest distances from " << source << ":\n";
+    //     for (auto &i : dist)
+    //     {
+    //         cout << i.first << " -> " << i.second << "\n";
+    //     }
+    // }
+
 public:
     void insert(string u, string v, int w)
     {
@@ -16,54 +64,38 @@ public:
         root[v].push_back({u, w});
     }
 
-    void dijkstra(string source)
+    void dijkstra(string scource)
     {
         unordered_map<string, int> dist;
-
-        // Initialize distances
         for (auto &i : root)
         {
             dist[i.first] = INT_MAX;
         }
-
-        // Min Heap → (distance, node)
-        priority_queue<
-            pair<int, string>,
-            vector<pair<int, string>>,
-            greater<pair<int, string>>>
-            pq;
-
-        dist[source] = 0;
-        pq.push({0, source});
-
+        priority_queue<pair<int, string>, vector<pair<int, string>>, greater<pair<int, string>>> pq;
+        pq.push({0, scource});
         while (!pq.empty())
         {
-            auto top = pq.top();
+            pair<int, string> top = pq.top();
             pq.pop();
-            int currDist = top.first;
-            string node = top.second;
 
+            int current_dist = top.first;
+            string node = top.second;
             for (auto &nbr : root[node])
             {
-                string adjNode = nbr.first;
-                int weight = nbr.second;
 
-                if (currDist + weight < dist[adjNode])
+                if (current_dist + nbr.second < dist[nbr.first])
                 {
-                    dist[adjNode] = currDist + weight;
-                    pq.push({dist[adjNode], adjNode});
+                    dist[nbr.first] = current_dist + nbr.second;
+                    pq.push({current_dist + nbr.second, nbr.first});
                 }
             }
         }
-
-        // Print result
-        cout << "\nShortest distances from " << source << ":\n";
+        cout << "\nShortest distances from " << scource << ":\n";
         for (auto &i : dist)
         {
             cout << i.first << " -> " << i.second << "\n";
         }
     }
-
     void printGraph()
     {
         for (auto &i : root)
