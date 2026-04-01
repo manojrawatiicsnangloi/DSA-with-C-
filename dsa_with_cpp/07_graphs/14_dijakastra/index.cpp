@@ -14,7 +14,7 @@ class graphs{
         for (auto &i: root){
             cout << i.first << " : ";
             for (pair<string, int> j : i.second){
-                cout << "("<< i.first << "," << i.second << ")"
+                cout << "("<< j.first << j.second << ")";
             }
         }
     }
