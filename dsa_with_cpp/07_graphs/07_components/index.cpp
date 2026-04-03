@@ -21,6 +21,19 @@ private:
     } 
 }
 public:
+int component(){
+     unordered_map<string, bool> visited;
+     int count = 0;
+     cout << "\nComponent";
+     for (auto&i:root){
+        if (!visited[i.first]){
+            count++;
+            cout << "\n";
+            _dfs(i.first, visited);
+        }
+     }
+     return count;
+}
     void add(string u, string v, int w)
     {
         root[u].push_back({v, w});
@@ -84,8 +97,10 @@ int main()
     gp.add("G", "C", 5);
     gp.add("F", "B", 2);
     gp.add("G", "F", 5);
+    gp.add("X", "Y", 5);
     gp.printGraph();
     gp.bfs("A");
     gp.dfs("A");
+    cout << "component count" << gp.component();
     return 0;
 }
