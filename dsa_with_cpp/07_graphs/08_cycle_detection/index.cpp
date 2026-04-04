@@ -85,29 +85,35 @@ public:
         for (auto &i : root[node])
         {
             string neighbor = i.first;
-            if (!visited[neighbor]){
-                if (_cycleDFS(neighbor, node, visited)){
+            if (!visited[neighbor])
+            {
+                if (_cycleDFS(neighbor, node, visited))
+                {
                     return true;
                 }
             }
-            else if (neighbor != parent){
+            else if (neighbor != parent)
+            {
                 return true;
             }
-            return false;
         }
+        return false;
     }
 
-    bool hasCycle() {
-    unordered_map<string, bool> visited;
+    bool hasCycle()
+    {
+        unordered_map<string, bool> visited;
 
-    for (auto &i : root) {
-        if (!visited[i.first]) {
-            if (_cycleDFS(i.first, "", visited))
-                return true;
+        for (auto &i : root)
+        {
+            if (!visited[i.first])
+            {
+                if (_cycleDFS(i.first, "", visited))
+                    return true;
+            }
         }
+        return false;
     }
-    return false;
-}
 
     void printGraph()
     {
