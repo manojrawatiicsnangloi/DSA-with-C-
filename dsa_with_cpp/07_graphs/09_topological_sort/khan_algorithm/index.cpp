@@ -8,7 +8,6 @@ using namespace std;
 
 class graphs
 {
-
 private:
     unordered_map<string, vector<pair<string, int>>> root;
     void _dfs(string &node, unordered_map<string, bool> &visited)
@@ -34,55 +33,38 @@ public:
         }
     }
 
-   void kahnTopoSort() {
-    unordered_map<string, int> indegree;
-
-    // Step 1: Initialize all nodes with 0
-    for (auto &i : root) {
-        indegree[i.first] = 0;
-    }
-
-    // Step 2: Calculate indegree
-    for (auto &i : root) {
-        for (auto &j : i.second) {
-            indegree[j.first]++;
+    void khanTopologicalSort(){
+        unordered_map<string, int> indegree;
+        for (auto&i: root){
+            indegree[i.first] = 0;
         }
-    }
 
-    // Step 3: Push nodes with indegree 0
-    queue<string> q;
-    for (auto &i : indegree) {
-        if (i.second == 0) {
-            q.push(i.first);
+        for (auto &i: root){
+            for (auto &j: i.second){
+                indegree[j.first]++;
+            }
         }
-    }
 
-    // Step 4: BFS
-    cout << "\nKahn Topological Sort: ";
-    int count = 0;
+        queue <string> q;
+        for (auto & i: indegree){
+            if (i.second == 0){
+                q.push(i.first);
+            }
+        }
 
-    while (!q.empty()) {
-        string node = q.front();
-        q.pop();
-
-        cout << node << " ";
-        count++;
-
-        for (auto &neigh : root[node]) {
-            indegree[neigh.first]--;
-
-            if (indegree[neigh.first] == 0) {
-                q.push(neigh.first);
+        cout << " \nKhan Algorithm ";
+        while (!q.empty()){
+            string node = q.front();
+            q.pop();
+            cout << node << " ";
+            for (auto&i: root[node]){
+                indegree[i.first]--;
+                if (indegree[i.first] == 0){
+                    q.push(i.first);
+                }
             }
         }
     }
-
-    // Cycle detection
-    if (count != root.size()) {
-        cout << "\nCycle detected! Topological sort not possible";
-    }
-}
-
     void dfs(string s)
     {
         unordered_map<string, bool> visited;
@@ -177,7 +159,7 @@ int main()
     g.insert("3", "1", 0);
     g.printGraph();
     
-    g.kahnTopoSort();
+    g.khanTopologicalSort();
 
     return 0;
 }
