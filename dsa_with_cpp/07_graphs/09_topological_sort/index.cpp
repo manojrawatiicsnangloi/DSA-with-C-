@@ -2,6 +2,7 @@
 #include <climits>
 #include <vector>
 #include <queue>
+#include <stack>
 #include <unordered_map>
 using namespace std;
 
@@ -27,6 +28,38 @@ public:
     void insert(string u, string v, int w)
     {
         root[u].push_back({v, w});
+        root[v].push_back({});
+    }
+
+    void topological_dfs(string curr, unordered_map<string, bool> &vis, stack<string> &st)
+    {
+        vis[curr] = true;
+        for (pair<string, int> &i : root[curr])
+        {
+            if (!vis[i.first])
+            {
+                topological_dfs(i.first, vis, st);
+            }
+        }
+        st.push(curr);
+    }
+
+    void topologicalSort()
+    {
+        unordered_map<string, bool> vis;
+        stack<string> st;
+        for (auto &i : root)
+        {
+            cout << i.first << " ";
+                if (!vis[i.first]){
+                    topological_dfs(i.first, vis, st);
+                }
+        }
+        cout << "\n Topological Sort";
+        while (!st.empty()){
+            cout <<  " " <<  st.top();
+            st.pop();
+        }
     }
 
     void dfs(string s)
@@ -37,18 +70,22 @@ public:
         _dfs(s, visited);
     }
 
-    void bfs(string s) {
+    void bfs(string s)
+    {
         cout << "\nBFS ";
         queue<string> qu;
-        unordered_map <string, bool> visited;
+        unordered_map<string, bool> visited;
         qu.push(s);
         visited[s] = true;
-        while (!qu.empty()){
+        while (!qu.empty())
+        {
             string node = qu.front();
             qu.pop();
             cout << node << " ";
-            for (pair<string, int> &i : root[node]){
-                if (!visited[i.first]){
+            for (pair<string, int> &i : root[node])
+            {
+                if (!visited[i.first])
+                {
                     qu.push(i.first);
                     visited[i.first] = true;
                 }
@@ -56,27 +93,31 @@ public:
         }
     }
 
-    void shortestPath(string scource){
-       
+    void shortestPath(string scource)
+    {
         priority_queue<
-        pair<int, string>,
-        vector<pair<int, string>>,
-        greater<pair<int, string>>
-        > pq;
+            pair<int, string>,
+            vector<pair<int, string>>,
+            greater<pair<int, string>>>
+            pq;
         unordered_map<string, int> dist;
         // unordered_map <string, bool> visited;
-        for (auto &i: root){
+        for (auto &i : root)
+        {
             dist[i.first] = INT_MAX;
         }
         dist[scource] = 0;
         pq.push({0, scource});
         // visited[scource] = true;
-        while (!pq.empty()){
+        while (!pq.empty())
+        {
             pair<int, string> node = pq.top();
             pq.pop();
-            for (auto& neigh: root[node.second]){
+            for (auto &neigh : root[node.second])
+            {
                 int total_distance = node.first + neigh.second;
-                if (total_distance < dist[neigh.first]){
+                if (total_distance < dist[neigh.first])
+                {
                     pq.push({total_distance, neigh.first});
                     // visited[neigh.first] = true;
                     dist[neigh.first] = total_distance;
@@ -84,50 +125,11 @@ public:
             }
         }
         cout << "\nShortest Path ";
-        for (auto&i: dist){
+        for (auto &i : dist)
+        {
             cout << i.first << " - " << i.second << "\n";
         }
     }
-
-
-    void topologicalSort() {
-    unordered_map<string, int> indegree;
-
-    // Step 1: Initialize indegree of all nodes
-    for (auto &i : root) {
-        if (indegree.find(i.first) == indegree.end())
-            indegree[i.first] = 0;
-
-        for (auto &j : i.second) {
-            indegree[j.first]++;
-        }
-    }
-
-    // Step 2: Push nodes with 0 indegree
-    queue<string> q;
-    for (auto &i : indegree) {
-        if (i.second == 0) {
-            q.push(i.first);
-        }
-    }
-
-    // Step 3: Process nodes
-    cout << "\nTopological Sort: ";
-    while (!q.empty()) {
-        string node = q.front();
-        q.pop();
-
-        cout << node << " ";
-
-        for (auto &neigh : root[node]) {
-            indegree[neigh.first]--;
-
-            if (indegree[neigh.first] == 0) {
-                q.push(neigh.first);
-            }
-        }
-    }
-}
 
     void printGraph()
     {
@@ -146,35 +148,14 @@ public:
 int main()
 {
     graphs g;
-    // g.insert("D", "A", 4);
-    // g.insert("D", "E", 2);
-    // g.insert("A", "E", 4);
-    // g.insert("A", "C", 3);
-    // g.insert("E", "C", 4);
-    // g.insert("E", "G", 5);
-    // g.insert("C", "B", 3);
-    // g.insert("C", "F", 4);
-    // g.insert("C", "G", 5);
-    // g.insert("G", "C", 5);
-    // g.insert("G", "F", 5);
-
-
-    g.insert("D", "A", 4);
-g.insert("D", "E", 2);
-g.insert("A", "E", 4);
-g.insert("A", "C", 3);
-g.insert("E", "C", 4);
-g.insert("E", "G", 5);
-g.insert("C", "B", 3);
-g.insert("C", "F", 4);
-g.insert("C", "G", 5);
-g.insert("G", "F", 5);
-
-
+    g.insert("5", "0", 0);
+    g.insert("4", "0", 0);
+    g.insert("5", "2", 0);
+    g.insert("4", "1", 0);
+    g.insert("2", "3", 0);
+    g.insert("3", "1", 0);
     g.printGraph();
-    g.bfs("A");
-    g.dfs("A");
-    g.shortestPath("A");
     g.topologicalSort();
-    return 0;
+
+    return 0;   
 }
