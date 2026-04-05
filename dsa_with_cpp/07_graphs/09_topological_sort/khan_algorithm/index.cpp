@@ -28,39 +28,60 @@ public:
     void insert(string u, string v, int w)
     {
         root[u].push_back({v, w});
-        root[v].push_back({});
+        if (root.find(v) == root.end())
+        {
+            root[v] = {};
+        }
     }
 
-    void topological_dfs(string curr, unordered_map<string, bool> &vis, stack<string> &st)
-    {
-        vis[curr] = true;
-        for (pair<string, int> &i : root[curr])
-        {
-            if (!vis[i.first])
-            {
-                topological_dfs(i.first, vis, st);
+   void kahnTopoSort() {
+    unordered_map<string, int> indegree;
+
+    // Step 1: Initialize all nodes with 0
+    for (auto &i : root) {
+        indegree[i.first] = 0;
+    }
+
+    // Step 2: Calculate indegree
+    for (auto &i : root) {
+        for (auto &j : i.second) {
+            indegree[j.first]++;
+        }
+    }
+
+    // Step 3: Push nodes with indegree 0
+    queue<string> q;
+    for (auto &i : indegree) {
+        if (i.second == 0) {
+            q.push(i.first);
+        }
+    }
+
+    // Step 4: BFS
+    cout << "\nKahn Topological Sort: ";
+    int count = 0;
+
+    while (!q.empty()) {
+        string node = q.front();
+        q.pop();
+
+        cout << node << " ";
+        count++;
+
+        for (auto &neigh : root[node]) {
+            indegree[neigh.first]--;
+
+            if (indegree[neigh.first] == 0) {
+                q.push(neigh.first);
             }
         }
-        st.push(curr);
     }
 
-    void topologicalSort()
-    {
-        unordered_map<string, bool> vis;
-        stack<string> st;
-        for (auto &i : root)
-        {
-            cout << i.first << " ";
-                if (!vis[i.first]){
-                    topological_dfs(i.first, vis, st);
-                }
-        }
-        cout << "\n Topological Sort";
-        while (!st.empty()){
-            cout <<  " " <<  st.top();
-            st.pop();
-        }
+    // Cycle detection
+    if (count != root.size()) {
+        cout << "\nCycle detected! Topological sort not possible";
     }
+}
 
     void dfs(string s)
     {
@@ -155,7 +176,8 @@ int main()
     g.insert("2", "3", 0);
     g.insert("3", "1", 0);
     g.printGraph();
-    g.topologicalSort();
+    
+    g.kahnTopoSort();
 
-    return 0;   
+    return 0;
 }
