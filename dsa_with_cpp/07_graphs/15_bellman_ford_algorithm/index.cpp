@@ -87,7 +87,7 @@ public:
                 dist[i.first] = INT_MAX;
             }
             dist[s] = 0;
-            for (int i = 1; i < size; i++){
+            // for (int i = 1; i < size; i++){
             for (auto &u : root){
                 for (auto &edge : u.second){
                     string v = edge.first;
@@ -97,7 +97,7 @@ public:
                         dist[v] = dist[u.first] + weight;
                     }
                 }
-            }
+            // }
             }
 
             for (auto&i:dist){
