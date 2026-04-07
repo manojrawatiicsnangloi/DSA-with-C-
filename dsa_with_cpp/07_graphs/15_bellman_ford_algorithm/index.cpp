@@ -76,26 +76,34 @@ public:
         _dfs(s, vis);
     }
 
-    void bellmanFord(string s){
-        unordered_map <string, int> dist;
-        for (auto&i:root){
-            dist[i.first] = INT_MAX;
-        }
-        for (auto &u : root){
-            for (auto &edge : u.second){
-                string v = edge.first;
-                int weight = edge.second;
-                if (dist[u.first] != INT_MAX && 
-                    dist[u.first] + weight < dist[v]){
-                    dist[v] = dist[u.first] + weight;
+        void bellmanFord(string s){
+            unordered_map <string, int> dist;
+           
+
+            
+
+            int size = root.size();
+            for (auto&i:root){
+                dist[i.first] = INT_MAX;
+            }
+            dist[s] = 0;
+            for (int i = 1; i < size; i++){
+            for (auto &u : root){
+                for (auto &edge : u.second){
+                    string v = edge.first;
+                    int weight = edge.second;
+                    if (dist[u.first] != INT_MAX && 
+                        dist[u.first] + weight < dist[v]){
+                        dist[v] = dist[u.first] + weight;
+                    }
                 }
             }
-        }
+            }
 
-        for (auto&i:dist){
-            cout << i.first << " : " << i.second;
+            for (auto&i:dist){
+                cout << endl << i.first << " : " << i.second << endl;
+            }
         }
-    }
     void bfs(string s)
     {
         unordered_map<string, bool> vis;
@@ -133,7 +141,7 @@ int main()
     gp.insert("C", "B", -2);
     gp.insert("E", "F", 3);
     gp.insert("D", "F", -1);
-    gp.dijkstra("D");
+    // gp.dijkstra("D");
     cout << "\nBellman ford Algorithm";
     gp.bellmanFord("A");
     return 0;

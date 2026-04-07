@@ -1,41 +1,40 @@
-#include <iostream>
-using namespace std;
+#include <stdio.h>
 
 int main() {
     int i;
     float f;
     double d;
     char c;
-    string s;
-    bool b;
+    char s[100];   // string (array of characters)
+    int b;         // boolean (C uses int for boolean)
 
     // Taking input
-    cout << "Enter an integer: ";
-    cin >> i;
+    printf("Enter an integer: ");
+    scanf("%d", &i);
 
-    cout << "Enter a float: ";
-    cin >> f;
+    printf("Enter a float: ");
+    scanf("%f", &f);
 
-    cout << "Enter a double: ";
-    cin >> d;
+    printf("Enter a double: ");
+    scanf("%lf", &d);
 
-    cout << "Enter a character: ";
-    cin >> c;
+    printf("Enter a character: ");
+    scanf(" %c", &c);   // space before %c to avoid newline issue
 
-    cout << "Enter a string: ";
-    cin >> s;
+    printf("Enter a string: ");
+    scanf("%s", s);
 
-    cout << "Enter a boolean (0 or 1): ";
-    cin >> b;
+    printf("Enter a boolean (0 or 1): ");
+    scanf("%d", &b);
 
     // Printing output
-    cout << "\n--- Output ---" << endl;
-    cout << "Integer: " << i << endl;
-    cout << "Float: " << f << endl;
-    cout << "Double: " << d << endl;
-    cout << "Character: " << c << endl;
-    cout << "String: " << s << endl;
-    cout << "Boolean: " << b << endl;
+    printf("\n--- Output ---\n");
+    printf("Integer: %d\n", i);
+    printf("Float: %f\n", f);
+    printf("Double: %lf\n", d);
+    printf("Character: %c\n", c);
+    printf("String: %s\n", s);
+    printf("Boolean: %d\n", b);
 
     return 0;
 }
