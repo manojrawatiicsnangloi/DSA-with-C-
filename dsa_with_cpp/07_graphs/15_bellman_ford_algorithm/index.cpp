@@ -76,56 +76,26 @@ public:
         _dfs(s, vis);
     }
 
-void bellmanFord(string src){
-    unordered_map<string, int> dist;
-
-    // Step 1: Initialize
-    for (auto &i : root){
-        dist[i.first] = INT_MAX;
-    }
-    dist[src] = 0;
-
-    int V = root.size();
-
-    // Step 2: Relax edges V-1 times
-    for (int i = 0; i < V - 1; i++){
+    void bellmanFord(string s){
+        unordered_map <string, int> dist;
+        for (auto&i:root){
+            dist[i.first] = INT_MAX;
+        }
         for (auto &u : root){
             for (auto &edge : u.second){
                 string v = edge.first;
                 int weight = edge.second;
-
                 if (dist[u.first] != INT_MAX && 
                     dist[u.first] + weight < dist[v]){
                     dist[v] = dist[u.first] + weight;
                 }
             }
         }
-    }
 
-    // Step 3: Detect negative cycle
-    bool hasNegativeCycle = false;
-    for (auto &u : root){
-        for (auto &edge : u.second){
-            string v = edge.first;
-            int weight = edge.second;
-
-            if (dist[u.first] != INT_MAX && 
-                dist[u.first] + weight < dist[v]){
-                hasNegativeCycle = true;
-            }
+        for (auto&i:dist){
+            cout << i.first << " : " << i.second;
         }
     }
-
-    // Output
-    if (hasNegativeCycle){
-        cout << "Negative cycle detected!\n";
-    } else {
-        for (auto &i : dist){
-            cout << i.first << " : " << i.second << "\n";
-        }
-    }
-}
-
     void bfs(string s)
     {
         unordered_map<string, bool> vis;
@@ -147,22 +117,24 @@ void bellmanFord(string src){
             }
         }
     }
+
+
 };
+
+
 int main()
 {
     graphs gp;
-    gp.insert("D", "A", 4);
-    gp.insert("A", "E", 4);
-    gp.insert("D", "E", 2);
-    gp.insert("A", "C", 3);
-    gp.insert("E", "C", 4);
-    gp.insert("C", "B", 3);
-    gp.insert("C", "F", 4);
-    gp.insert("G", "C", 5);
-    gp.insert("F", "B", 2);
-    gp.insert("G", "F", 5);
+    gp.insert("A", "B", 6);
+    gp.insert("A", "C", 4);
+    gp.insert("A", "D", 5);
+    gp.insert("B", "E", -1);
+    gp.insert("C", "E", 3);
+    gp.insert("C", "B", -2);
+    gp.insert("E", "F", 3);
+    gp.insert("D", "F", -1);
     gp.dijkstra("D");
     cout << "\nBellman ford Algorithm";
-    gp.bellmanFord("D");
+    gp.bellmanFord("A");
     return 0;
 }

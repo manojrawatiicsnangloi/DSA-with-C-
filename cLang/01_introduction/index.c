@@ -5,7 +5,6 @@ int main(){
 	char ch = 'A';
 	float n1 = 3.14;
 	double n2 = 324.43434343;
-
 	char st [100];
 	printf("Enter your name : ");
 	scanf("%s", &st);
