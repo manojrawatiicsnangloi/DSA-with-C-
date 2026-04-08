@@ -77,31 +77,70 @@ public:
         _dfs(s, vis);
     }
 
-        void bellmanFord(string s){
-            unordered_map <string, int> dist;
-            int size = root.size();
-            for (auto&i:root){
-                dist[i.first] = INT_MAX;
-            }
-            dist[s] = 0;
-            // for (int i = 1; i < size; i++){
-            for (auto &u : root){
-                for (auto &edge : u.second){
-                    string v = edge.first;
-                    int weight = edge.second;
-                    if (dist[u.first] != INT_MAX && 
-                        dist[u.first] + weight < dist[v]){
-                        dist[v] = dist[u.first] + weight;
-                    }
-                }
-            // }
-            }
+    void bellmanFord(string s)
+{
+    unordered_map<string, int> dist;
 
-            for (auto&i:dist){
-                cout << endl << i.first << " : " << i.second << endl;
+    // Step 1: Initialize distances
+    for (auto &i : root)
+    {
+        dist[i.first] = INT_MAX;
+    }
+    dist[s] = 0;
+
+    int V = root.size();
+
+    // Step 2: Relax all edges V-1 times
+    for (int i = 1; i < V; i++)
+    {
+        for (auto &u : root)
+        {
+            for (auto &edge : u.second)
+            {
+                string v = edge.first;
+                int weight = edge.second;
+
+                if (dist[u.first] != INT_MAX &&
+                    dist[u.first] + weight < dist[v])
+                {
+                    dist[v] = dist[u.first] + weight;
+                }
             }
         }
-    void bfs(string s)
+    }
+
+    // Step 3: Detect negative cycle
+    bool hasNegativeCycle = false;
+    for (auto &u : root)
+    {
+        for (auto &edge : u.second)
+        {
+            string v = edge.first;
+            int weight = edge.second;
+
+            if (dist[u.first] != INT_MAX &&
+                dist[u.first] + weight < dist[v])
+            {
+                hasNegativeCycle = true;
+            }
+        }
+    }
+
+    if (hasNegativeCycle)
+    {
+        cout << "\nNegative Cycle Detected!\n";
+        return;
+    }
+
+    // Step 4: Print result
+    cout << "\nShortest distances from " << s << ":\n";
+    for (auto &i : dist)
+    {
+        cout << i.first << " : " << i.second << "\n";
+    }
+}
+ 
+        void bfs(string s)
     {
         unordered_map<string, bool> vis;
         queue<string> q;
@@ -123,6 +162,14 @@ public:
         }
     }
 
+    void printGraph(){
+        for (auto &i: root){
+            cout << endl << i.first << " : ";
+            for (auto&j:root[i.first]){
+                cout << "( " << j.first << ", " << j.second << " )";
+            }
+        }
+    }
 
 };
 
@@ -138,8 +185,10 @@ int main()
     gp.insert("C", "B", -2);
     gp.insert("E", "F", 3);
     gp.insert("D", "F", -1);
+    gp.insert("D", "C", -2);
     // gp.dijkstra("D");
     cout << "\nBellman ford Algorithm";
     gp.bellmanFord("A");
+    gp.printGraph();
     return 0;
 }
