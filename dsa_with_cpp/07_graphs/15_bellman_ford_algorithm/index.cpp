@@ -4,12 +4,13 @@
 #include <climits>
 #include <unordered_map>
 #include <vector>
+#include <map>
 using namespace std;
 
 class graphs
 {
 private:
-    unordered_map<string, vector<pair<string, int>>> root;
+unordered_map<string, vector<pair<string, int>>> root;
     void _dfs(string node, unordered_map<string, bool> &vis)
     {
         vis[node] = true;
@@ -78,10 +79,6 @@ public:
 
         void bellmanFord(string s){
             unordered_map <string, int> dist;
-           
-
-            
-
             int size = root.size();
             for (auto&i:root){
                 dist[i.first] = INT_MAX;
