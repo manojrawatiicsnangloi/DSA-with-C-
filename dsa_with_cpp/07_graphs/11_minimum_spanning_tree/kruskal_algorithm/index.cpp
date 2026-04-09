@@ -3,7 +3,6 @@
 #include <vector>
 #include <tuple>
 #include <algorithm>
-#include <queue>
 using namespace std;
 
 class graphs
@@ -11,136 +10,68 @@ class graphs
 private:
     unordered_map<string, vector<pair<string, int>>> root;
 
-    // DSU structures
-    unordered_map<string, string> parent;
-    unordered_map<string, int> rank;
-
-    // Find with path compression
-    string find(string x)
-    {
-        if (parent[x] != x)
-            parent[x] = find(parent[x]);
-        return parent[x];
-    }
-
-    // Union by rank
-    void unite(string a, string b)
-    {
-        string pa = find(a);
-        string pb = find(b);
-
-        if (pa == pb)
-            return;
-
-        if (rank[pa] < rank[pb])
-        {
-            parent[pa] = pb;
-        }
-        else if (rank[pb] < rank[pa])
-        {
-            parent[pb] = pa;
-        }
-        else
-        {
-            parent[pb] = pa;
-            rank[pa]++;
-        }
-    }
-
 public:
-    // Undirected graph
     void add(const string &u, const string &v, const int &w)
     {
         root[u].push_back({v, w});
         root[v].push_back({u, w});
     }
 
-    void printGraph()
+    void kruskal_mst()
     {
-        for (auto &i : root)
-        {
-            cout << i.first << " : ";
-            for (auto &j : i.second)
-            {
-                cout << "(" << j.first << ", " << j.second << ") ";
-            }
-            cout << "\n";
-        }
-    }
-
-    void mst_prism(string start)
-    {
+        vector<tuple<int, string, string>> edges;
         unordered_map<string, bool> vis;
-        priority_queue<
-            tuple<int, string, string>,
-            vector<tuple<int, string, string>>,
-            greater<tuple<int, string, string>>>
-            pq;
-        pq.push({0, start, "NONE"});
-        
-        int totalCost = 0;
-        while (!pq.empty())
+
+        // Step 1: collect unique edges
+        for (auto &u : root)
         {
-            auto top = pq.top();
-            int weight = get<0>(top);
-            string node = get<1>(top);
-            string parent = get<2>(top);
-
-            pq.pop();
-            if (vis[node])
-                continue;
-            vis[node] = true;
-            totalCost += weight;
-
-            if (parent != "NONE")
+            for (auto &v : u.second)
             {
-                cout << parent << " - " << node << " : " << weight << "\n";
-            }
+                string e1 = u.first + "-" + v.first;
+                string e2 = v.first + "-" + u.first;
 
-            for (auto &nbr : root[node])
-            {
-                if (!vis[nbr.first])
+                if (!vis[e1] && !vis[e2])
                 {
-                    pq.push({nbr.second, nbr.first, node});
+                    edges.push_back({v.second, u.first, v.first});
+                    vis[e1] = true;
                 }
             }
         }
-    }
-    //  MST using Kruskal
-    void mst(){
-        vector<tuple<int,string,string>> edges;
 
-        // Step 1: collect unique edges
-        for(auto &u : root){
-            for(auto &v : u.second){
-                if(u.first < v.first) // avoid duplicate edges
-                    edges.push_back({v.second, u.first, v.first});
-            }
-        }
-
-        // Step 2: sort edges by weight
+        // Step 2: sort edges
         sort(edges.begin(), edges.end());
 
-        // Step 3: initialize DSU
-        for(auto &i : root){
-            parent[i.first] = i.first;
-            rank[i.first] = 0;
-        }
+        // Step 3: assign group id
+        unordered_map<string, int> group;
+        int id = 0;
+
+        for (auto &i : root)
+            group[i.first] = id++;
 
         int totalCost = 0;
 
-        cout << "\nMST Edges:\n";
+        cout << "MST Edges:\n";
 
         // Step 4: process edges
-        for(auto &e : edges){
-            int w;
-            string u, v;
-            tie(w, u, v) = e;
+        for (auto &e : edges)
+        {
+            int w = get<0>(e);
+            string u = get<1>(e);
+            string v = get<2>(e);
 
-            if(find(u) != find(v)){
-                unite(u, v);
+            if (group[u] != group[v])
+            {
                 cout << u << " - " << v << " : " << w << "\n";
                 totalCost += w;
+
+                int oldG = group[v];
+                int newG = group[u];
+
+                for (auto &i : group)
+                {
+                    if (i.second == oldG)
+                        i.second = newG;
+                }
             }
         }
 
@@ -163,9 +94,7 @@ int main()
     gp.add("F", "B", 2);
     gp.add("G", "F", 5);
 
-    // gp.printGraph();
+    gp.kruskal_mst();
 
-    // gp.mst(); //  call MST
-    gp.mst_prism("A");
     return 0;
 }

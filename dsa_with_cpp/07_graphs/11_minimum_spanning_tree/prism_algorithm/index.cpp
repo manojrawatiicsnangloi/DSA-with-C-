@@ -80,11 +80,11 @@ public:
         
         int totalCost = 0;
         while (!pq.empty())
-        {
-            auto top = pq.top();
-            int weight = get<0>(top);
-            string node = get<1>(top);
-            string parent = get<2>(top);
+            {
+                auto top = pq.top();
+                int weight = get<0>(top);
+                string node = get<1>(top);
+                string parent = get<2>(top);
 
             pq.pop();
             if (vis[node])
@@ -106,46 +106,6 @@ public:
             }
         }
     }
-    //  MST using Kruskal
-    // void mst(){
-    //     vector<tuple<int,string,string>> edges;
-
-    //     // Step 1: collect unique edges
-    //     for(auto &u : root){
-    //         for(auto &v : u.second){
-    //             if(u.first < v.first) // avoid duplicate edges
-    //                 edges.push_back({v.second, u.first, v.first});
-    //         }
-    //     }
-
-    //     // Step 2: sort edges by weight
-    //     sort(edges.begin(), edges.end());
-
-    //     // Step 3: initialize DSU
-    //     for(auto &i : root){
-    //         parent[i.first] = i.first;
-    //         rank[i.first] = 0;
-    //     }
-
-    //     int totalCost = 0;
-
-    //     cout << "\nMST Edges:\n";
-
-    //     // Step 4: process edges
-    //     for(auto &e : edges){
-    //         int w;
-    //         string u, v;
-    //         tie(w, u, v) = e;
-
-    //         if(find(u) != find(v)){
-    //             unite(u, v);
-    //             cout << u << " - " << v << " : " << w << "\n";
-    //             totalCost += w;
-    //         }
-    //     }
-
-    //     cout << "Total Cost: " << totalCost << "\n";
-    // }
 };
 
 int main()
