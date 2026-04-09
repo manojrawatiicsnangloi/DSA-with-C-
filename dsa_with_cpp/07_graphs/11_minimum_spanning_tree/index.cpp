@@ -9,18 +9,18 @@ class graphs{
 private: 
     unordered_map<string, vector<pair<string, int>>> root;
 
-    // 🔹 DSU structures
+    // DSU structures
     unordered_map<string, string> parent;
     unordered_map<string, int> rank;
 
-    // 🔹 Find with path compression
+    // Find with path compression
     string find(string x){
         if(parent[x] != x)
             parent[x] = find(parent[x]);
         return parent[x];
     }
 
-    // 🔹 Union by rank
+    // Union by rank
     void unite(string a, string b){
         string pa = find(a);
         string pb = find(b);
@@ -40,7 +40,7 @@ private:
     }
 
 public:
-    // 🔹 Undirected graph
+    // Undirected graph
     void add(const string &u, const string &v, const int &w){
         root[u].push_back({v, w});
         root[v].push_back({u, w});
@@ -56,46 +56,57 @@ public:
         }
     }
 
-    // 🔥 MST using Kruskal
-    void mst(){
-        vector<tuple<int,string,string>> edges;
+    void mst_prism(){
+        unordered_map <string, bool> vis;
+         priority_queue<
+        tuple<int, string, string>, 
+        vector<tuple<int, string, string>>, 
+        greater<tuple<int, string, string>>
+    > pq;
 
-        // Step 1: collect unique edges
-        for(auto &u : root){
-            for(auto &v : u.second){
-                if(u.first < v.first) // avoid duplicate edges
-                    edges.push_back({v.second, u.first, v.first});
-            }
-        }
+    
 
-        // Step 2: sort edges by weight
-        sort(edges.begin(), edges.end());
-
-        // Step 3: initialize DSU
-        for(auto &i : root){
-            parent[i.first] = i.first;
-            rank[i.first] = 0;
-        }
-
-        int totalCost = 0;
-
-        cout << "\nMST Edges:\n";
-
-        // Step 4: process edges
-        for(auto &e : edges){
-            int w;
-            string u, v;
-            tie(w, u, v) = e;
-
-            if(find(u) != find(v)){
-                unite(u, v);
-                cout << u << " - " << v << " : " << w << "\n";
-                totalCost += w;
-            }
-        }
-
-        cout << "Total Cost: " << totalCost << "\n";
     }
+    //  MST using Kruskal
+    // void mst(){
+    //     vector<tuple<int,string,string>> edges;
+
+    //     // Step 1: collect unique edges
+    //     for(auto &u : root){
+    //         for(auto &v : u.second){
+    //             if(u.first < v.first) // avoid duplicate edges
+    //                 edges.push_back({v.second, u.first, v.first});
+    //         }
+    //     }
+
+    //     // Step 2: sort edges by weight
+    //     sort(edges.begin(), edges.end());
+
+    //     // Step 3: initialize DSU
+    //     for(auto &i : root){
+    //         parent[i.first] = i.first;
+    //         rank[i.first] = 0;
+    //     }
+
+    //     int totalCost = 0;
+
+    //     cout << "\nMST Edges:\n";
+
+    //     // Step 4: process edges
+    //     for(auto &e : edges){
+    //         int w;
+    //         string u, v;
+    //         tie(w, u, v) = e;
+
+    //         if(find(u) != find(v)){
+    //             unite(u, v);
+    //             cout << u << " - " << v << " : " << w << "\n";
+    //             totalCost += w;
+    //         }
+    //     }
+
+    //     cout << "Total Cost: " << totalCost << "\n";
+    // }
 };
 
 int main(){
@@ -114,7 +125,7 @@ int main(){
 
     gp.printGraph();
 
-    gp.mst(); // 🔥 call MST
-
+    // gp.mst(); //  call MST
+    gp.mst_prism();
     return 0;
 }
