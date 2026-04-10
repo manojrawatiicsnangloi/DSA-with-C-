@@ -45,9 +45,12 @@ public:
                 }
                 totalWeight += w;
                 for (auto &i: root[node]){
+                     if (!vis[i.first]) {
                     pq.push({i.second, i.first, node});
+                     }
                 }
             }
+            cout << endl << "Weight : " << totalWeight;
         };
     void printGraph()
     {
