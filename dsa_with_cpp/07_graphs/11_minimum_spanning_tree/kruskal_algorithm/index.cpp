@@ -3,6 +3,7 @@
 #include <vector>
 #include <tuple>
 #include <algorithm>
+#include <queue>
 using namespace std;
 
 class graphs
@@ -17,65 +18,58 @@ public:
         root[v].push_back({u, w});
     }
 
-    void kruskal_mst()
-    {
-        vector<tuple<int, string, string>> edges;
-        unordered_map<string, bool> vis;
-
-        // Step 1: collect unique edges
-        for (auto &u : root)
-        {
-            for (auto &v : u.second)
-            {
-                string e1 = u.first + "-" + v.first;
-                string e2 = v.first + "-" + u.first;
-
-                if (!vis[e1] && !vis[e2])
-                {
-                    edges.push_back({v.second, u.first, v.first});
-                    vis[e1] = true;
-                }
+    void kruskal_mst(){
+   priority_queue<
+   tuple<int, string, string>,
+    vector<tuple<int, string, string>>,
+    greater<tuple<int, string, string>>
+   > edges;
+        for (auto&u: root){
+            for (auto&v: u.second){
+                // if (v.first < u.first)
+                edges.push({v.second, v.first, u.first});
             }
-        }
+        }   
 
-        // Step 2: sort edges
-        sort(edges.begin(), edges.end());
-
-        // Step 3: assign group id
+        //
         unordered_map<string, int> group;
         int id = 0;
 
-        for (auto &i : root)
-            group[i.first] = id++;
-
-        int totalCost = 0;
-
-        cout << "MST Edges:\n";
-
-        // Step 4: process edges
-        for (auto &e : edges)
-        {
-            int w = get<0>(e);
-            string u = get<1>(e);
-            string v = get<2>(e);
-
-            if (group[u] != group[v])
-            {
-                cout << u << " - " << v << " : " << w << "\n";
-                totalCost += w;
-
-                int oldG = group[v];
-                int newG = group[u];
-
-                for (auto &i : group)
-                {
-                    if (i.second == oldG)
-                        i.second = newG;
-                }
-            }
+        for (auto &i: root){
+            group[i.first] = id;
+            id++; 
         }
 
-        cout << "Total Cost: " << totalCost << "\n";
+        
+        
+        while (!edges.empty()){
+            tuple<int, string, string> top = edges.top();
+            edges.pop();
+            int w = get<0>(top);
+            string u = get<1>(top);
+            string v = get<2>(top);
+            if (group[u] != group[v]){
+                cout << u << " - " << v << " " <<  w << "\n";
+                int oldG = group[u];
+                int newG = group[v];
+                for (auto&i : group){
+                    if (oldG == i.second){
+                        i.second = newG;
+                    }
+                }
+            }
+
+        }
+    }
+
+    void printGraphs(){
+        for (auto&i: root){
+            cout << i.first << " : ";
+            for (auto &j : i.second){
+                cout << "( "<<j.first << ", " << j.second << ") ";
+            }
+            cout << endl;
+        }
     }
 };
 
@@ -95,6 +89,7 @@ int main()
     gp.add("G", "F", 5);
 
     gp.kruskal_mst();
+    // gp.printGraphs();
 
     return 0;
 }
