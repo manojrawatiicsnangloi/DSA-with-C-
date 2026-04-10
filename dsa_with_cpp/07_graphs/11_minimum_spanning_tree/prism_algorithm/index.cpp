@@ -13,39 +13,6 @@ private:
 
     // DSU structures
     unordered_map<string, string> parent;
-    unordered_map<string, int> rank;
-
-    // Find with path compression
-    string find(string x)
-    {
-        if (parent[x] != x)
-            parent[x] = find(parent[x]);
-        return parent[x];
-    }
-
-    // Union by rank
-    void unite(string a, string b)
-    {
-        string pa = find(a);
-        string pb = find(b);
-
-        if (pa == pb)
-            return;
-
-        if (rank[pa] < rank[pb])
-        {
-            parent[pa] = pb;
-        }
-        else if (rank[pb] < rank[pa])
-        {
-            parent[pb] = pa;
-        }
-        else
-        {
-            parent[pb] = pa;
-            rank[pa]++;
-        }
-    }
 
 public:
     // Undirected graph
@@ -55,6 +22,33 @@ public:
         root[v].push_back({u, w});
     }
 
+        void mst_prism(string s) {
+            unordered_map<string, bool> vis;
+            priority_queue<
+            tuple<int, string, string>,
+            vector<tuple<int, string, string>>,
+            greater<tuple<int, string, string>>
+            > pq;
+
+            int totalWeight = 0;
+            pq.push({0, s, ""});
+            while (!pq.empty()){
+                tuple<int, string, string> top = pq.top();
+                int w = get<0>(top);
+                string node = get<1>(top);
+                string parent = get<2>(top);
+                pq.pop();
+                if (vis[node]) continue;
+                vis[node] = true;
+                if (parent != ""){
+                    cout << parent << "--" << node << "\n" ;
+                }
+                totalWeight += w;
+                for (auto &i: root[node]){
+                    pq.push({i.second, i.first, node});
+                }
+            }
+        };
     void printGraph()
     {
         for (auto &i : root)
@@ -65,45 +59,6 @@ public:
                 cout << "(" << j.first << ", " << j.second << ") ";
             }
             cout << "\n";
-        }
-    }
-
-    void mst_prism(string start)
-    {
-        unordered_map<string, bool> vis;
-        priority_queue<
-            tuple<int, string, string>,
-            vector<tuple<int, string, string>>,
-            greater<tuple<int, string, string>>>
-            pq;
-        pq.push({0, start, "NONE"});
-        
-        int totalCost = 0;
-        while (!pq.empty())
-            {
-                auto top = pq.top();
-                int weight = get<0>(top);
-                string node = get<1>(top);
-                string parent = get<2>(top);
-
-            pq.pop();
-            if (vis[node])
-                continue;
-            vis[node] = true;
-            totalCost += weight;
-
-            if (parent != "NONE")
-            {
-                cout << parent << " - " << node << " : " << weight << "\n";
-            }
-
-            for (auto &nbr : root[node])
-            {
-                if (!vis[nbr.first])
-                {
-                    pq.push({nbr.second, nbr.first, node});
-                }
-            }
         }
     }
 };
