@@ -21,7 +21,6 @@ class graphs{
         greater<pair<int, string>>
         > pq;
         unordered_map<string, int> dist;
-
         for (auto&i: root){
             dist[i.first] = INT_MAX;
         }
@@ -45,6 +44,41 @@ class graphs{
         }
     }
 
+    void astar(string start, string goal){
+         priority_queue<
+            pair<int, string>,
+            vector<pair<int, string>>,
+            greater<pair<int, string>>
+        > pq;
+
+        unordered_map<string, int> g;
+
+        for (auto &i: root){
+            g[i.first] = INT_MAX;
+        }
+
+        g[start] = 0;
+        pq.push({0, start});
+          while (!pq.empty()){
+            auto top = pq.top();
+            pq.pop();
+
+            if (top.second == goal) {
+                cout << "\nGoal Reached : " << goal << endl;
+                cout << "Cost : " << g[goal];
+                return;
+            }
+            if (g[top.second] < top.first) continue;
+            for (auto &i: root[top.second]){
+                int totalDistance = top.first + i.second;
+                if (totalDistance < g[i.first]){
+                    pq.push({totalDistance, i.first});
+                    g[i.first] = totalDistance;
+                }
+            }
+        }
+        cout << "Goal not reachable\n";
+    }
     void printGraph(){
         for (auto &i: root){
             cout << endl;
@@ -69,6 +103,7 @@ int main(){
     gp.add("F", "B", 2);
     gp.add("G", "F", 5);
     // gp.printGraph();
-    gp.dikastra("A");
+    // gp.dikastra("A");
+    gp.astar("A", "E");
     return 0;
 }
