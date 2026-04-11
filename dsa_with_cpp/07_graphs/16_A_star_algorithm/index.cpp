@@ -6,46 +6,17 @@
 using namespace std;
 
 class graphs{
-    private:
-    unordered_map <string, vector<pair<string, int>>> root;
-    public:
+private:
+    unordered_map<string, vector<pair<string, int>>> root;
+
+public:
     void add(string u, string v, int w){
         root[u].push_back({v, w});
         root[v].push_back({u, w});
     }
 
-    void dikastra(string s){
-        priority_queue<
-        pair<int, string>,
-        vector<pair<int, string>>,
-        greater<pair<int, string>>
-        > pq;
-        unordered_map<string, int> dist;
-        for (auto&i: root){
-            dist[i.first] = INT_MAX;
-        }
-        dist[s] = 0;
-        pq.push({0, s});
-        while (!pq.empty()){
-            pair<int, string> top = pq.top();
-            pq.pop();
-            if (top.first > dist[top.second]) continue;
-            for (auto &i: root[top.second]){
-                int totalWeight = top.first + i.second; 
-                if (dist[i.first] > totalWeight){
-                    pq.push({totalWeight, i.first});
-                    dist[i.first] = totalWeight;
-                }
-            }
-        }
-        for (auto &i: dist){
-            cout << endl;
-            cout << i.first << " " << i.second ;
-        }
-    }
-
     void astar(string start, string goal){
-         priority_queue<
+        priority_queue<
             pair<int, string>,
             vector<pair<int, string>>,
             greater<pair<int, string>>
@@ -59,36 +30,37 @@ class graphs{
 
         g[start] = 0;
         pq.push({0, start});
-          while (!pq.empty()){
+
+        while (!pq.empty()){
             auto top = pq.top();
             pq.pop();
 
-            if (top.second == goal) {
+            string node = top.second;
+
+            // skip outdated
+            if (top.first > g[node]) continue;
+
+            // 🔥 stop when goal reached
+            if (node == goal){
                 cout << "\nGoal Reached : " << goal << endl;
-                cout << "Cost : " << g[goal];
+                cout << "Cost : " << g[goal] << endl;
                 return;
             }
-            if (g[top.second] < top.first) continue;
-            for (auto &i: root[top.second]){
-                int totalDistance = top.first + i.second;
-                if (totalDistance < g[i.first]){
-                    pq.push({totalDistance, i.first});
-                    g[i.first] = totalDistance;
+
+            for (auto &i: root[node]){
+                int newG = g[node] + i.second;
+
+                if (newG < g[i.first]){
+                    g[i.first] = newG;
+                    pq.push({newG, i.first});
                 }
             }
         }
+
         cout << "Goal not reachable\n";
     }
-    void printGraph(){
-        for (auto &i: root){
-            cout << endl;
-            cout << i.first << " : ";
-            for (auto &j :i.second){
-                cout << "("<<j.first << ", " << j.second << ") ";
-            }
-        }
-    }
 };
+
 
 int main(){
     graphs gp;
@@ -102,8 +74,7 @@ int main(){
     gp.add("G", "C", 5);
     gp.add("F", "B", 2);
     gp.add("G", "F", 5);
-    // gp.printGraph();
-    // gp.dikastra("A");
+
     gp.astar("A", "E");
     return 0;
 }
