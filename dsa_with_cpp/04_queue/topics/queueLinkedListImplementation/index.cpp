@@ -48,12 +48,35 @@ class queue{
         }
         return front->data;
     }
+
+    int getBack(){
+        if (rear == nullptr) return -1;
+        return rear->data;
+    }
+
     bool isEmpty(){
         return front == nullptr;
     }
-    
+
 };
 int main(){
+queue q;
+     q.enqueue(10);
+    q.enqueue(20);
+    q.enqueue(30);
+    q.enqueue(40);
 
+    std::cout << "Front element: " << q.top() << std::endl;
+    std::cout << "Rear element: " << q.getBack() << std::endl;
+
+    // Dequeue one element
+    q.dequeue();  // Removes 10
+
+    // Traverse queue (destructively)
+    std::cout << "Elements in queue: ";
+    while (!q.isEmpty()) {
+        std::cout << q.top() << " ";
+        q.dequeue();
+    }
     return 0;
 }

@@ -44,6 +44,13 @@ class queue{
         }
         return arr[front];
     }
+    int getBack(){
+        if (rear == -1 || front > rear){
+            cout << "Queue is empty";
+            return -1;
+        }
+        return arr[rear];
+    }
 
     bool isEmpty(){
         return front == -1 || front > rear;
@@ -69,6 +76,23 @@ class queue{
 };
 
 int main(){
-    
+    queue q(10);
+     q.enqueue(10);
+    q.enqueue(20);
+    q.enqueue(30);
+    q.enqueue(40);
+
+    cout << "Front element: " << q.getFront() << endl;
+    cout << "Rear element: " << q.getBack() << endl;
+
+    // Dequeue one element
+    q.dequeue();  // Removes 10
+
+    // Traverse queue (destructively)
+    cout << "Elements in queue: ";
+    while (!q.isEmpty()) {
+        cout << q.getFront() << " ";
+        q.dequeue();
+    }
     return 0;
 }
