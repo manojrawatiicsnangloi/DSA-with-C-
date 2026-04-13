@@ -61,7 +61,7 @@ class queue{
             cout << "Queue is empty";
             return;
         }
-        
+
         for (int i = front; i <= rear; i++){
             cout << arr[i] << " ";
         }
@@ -69,6 +69,6 @@ class queue{
 };
 
 int main(){
-
+    
     return 0;
 }
