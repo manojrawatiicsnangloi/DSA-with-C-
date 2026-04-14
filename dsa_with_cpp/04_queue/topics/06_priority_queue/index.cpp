@@ -25,8 +25,8 @@ public:
     void pop(){
         if (size == 0) return;
         arr[0] = arr[size - 1];
-        heapifyDown(0);
         size--;
+        heapifyDown(0);
     };                // remove highest priority (root)
 
     // access
