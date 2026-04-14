@@ -99,13 +99,9 @@ int main() {
     dq.pushRear(10);
     dq.pushRear(20);
     dq.pushFront(5);
-
     dq.display();
-
     dq.popFront();
     dq.popRear();
-
     dq.display();
-
     return 0;
 }
