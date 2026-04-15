@@ -16,7 +16,6 @@
             std::swap(arr[largest], arr[i]);
             heapify(arr, largest, size);
         }
-
     }
 
 void buildMaxHeap(int arr[], int size){
