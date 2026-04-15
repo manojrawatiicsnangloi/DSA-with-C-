@@ -19,16 +19,17 @@
     }
 
 void buildMaxHeap(int arr[], int size){
-        for (int i = size / 2 - 1; i >= 0; i--) {
-            heapify(arr, i, size);
-        }    
         
-        for (int i = size - 1; i >= 0; i--){
+    for (int i = size / 2 - 1; i >= 0; i--) {
+            heapify(arr, i, size);
+    }
+
+    for (int i = size - 1; i >= 0; i--){
             int temp = arr[0];
             arr[0] = arr[i];
             arr[i] = temp;
             heapify(arr, 0, i);
-        }
+    }
     }
 int main(){
 

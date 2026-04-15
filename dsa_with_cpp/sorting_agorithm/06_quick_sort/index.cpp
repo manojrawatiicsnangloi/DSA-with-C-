@@ -4,7 +4,7 @@ int partion(int arr[], int low, int high){
     int pivote = arr[high];
     int j = low - 1;
     for (int i = low; i <= high; i++){
-        if (arr[pivote] < arr[j]){
+        if (pivote > arr[i]){
             j++;
             std::swap(arr[j], arr[i]);
         }
