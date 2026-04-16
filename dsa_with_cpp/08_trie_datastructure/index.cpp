@@ -40,6 +40,14 @@ class trie{
         }
         return temp-> isEnd;
     }
+    bool startWith(string prefix){
+        node * temp = root;
+        for (char i : prefix){
+            int index = i - 'a';
+            if (root -> children[index] == NULL) return false;
+        }
+        return true;
+    }
 };
 
 

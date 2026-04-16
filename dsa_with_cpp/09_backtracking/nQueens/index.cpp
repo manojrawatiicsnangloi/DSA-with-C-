@@ -24,6 +24,7 @@ class chessboard{
             cout  << "\n------------------------\n";
             return;
         }
+        
         for (int i = 0; i < board.size(); i++){
             if (isSafe(row, i)){
                 board[row][i] = 'Q';
