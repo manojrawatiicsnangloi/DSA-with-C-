@@ -118,8 +118,39 @@ public:
             temp = temp->next;
         }
     }
-};
 
+    void reverseIterative() {
+        node* prev = NULL;
+        node* curr = root;
+        node* next = NULL;
+
+        while (curr != NULL) {
+            next = curr->next;   // store next
+            curr->next = prev;   // reverse link
+            prev = curr;         // move prev
+            curr = next;         // move curr
+        }
+        root = prev;
+    }
+
+    node* reverseRecursive(node* curr) {
+        if (curr == NULL || curr->next == NULL) {
+            return curr;
+        }
+
+        node* newHead = reverseRecursive(curr->next);
+
+        curr->next->next = curr;
+        curr->next = NULL;
+
+        return newHead;
+    }
+
+    void reverse() {
+        root = reverseRecursive(root);
+    }
+};
+    
 int main()
 {
     linkedlist list;
