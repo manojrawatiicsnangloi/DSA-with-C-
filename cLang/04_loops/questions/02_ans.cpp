@@ -7,6 +7,6 @@ int main(){
 		s += i;
 		i++;
 	}
-	printf("%d", s);
+	printf(	"%d", s);
 	return 0;
 }

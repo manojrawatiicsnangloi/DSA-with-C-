@@ -40,6 +40,7 @@ class avl_tree{
         x -> right = t2;
         x -> height = max(height(x -> left), height(x -> right));
         y -> height = max(height(y->left), height(x -> left));
+        return y;
     }
 
     node * rightRotate(node * x){
@@ -51,6 +52,7 @@ class avl_tree{
 
         x -> height = max(height(x -> left), height(x-> right));
         y -> height = max(height(y -> left), height(y -> right));
+        return y;
     }
 
     node * _insert(node * n, int value){
