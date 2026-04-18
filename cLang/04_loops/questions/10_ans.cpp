@@ -22,7 +22,7 @@ int main(){
         printf("This is prime number");
     }
     else{
-        printf("This is not prime number");
+        printf("This is not     prime number");
     }
     return 0;
 }
