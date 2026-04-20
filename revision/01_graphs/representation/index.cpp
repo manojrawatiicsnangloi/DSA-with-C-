@@ -46,7 +46,7 @@ class graphs{
         for (auto &i: root){
             dist[i.first] = INT_MAX;
              for (auto &j : i.second){
-                dist[j.first] = INT_MAX; // ✅ ensure all nodes covered
+                dist[j.first] = INT_MAX; //  ensure all nodes covered
             }
         }
 
