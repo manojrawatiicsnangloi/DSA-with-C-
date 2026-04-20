@@ -45,7 +45,5 @@ int num = 5;
       i++;
   }
 
-
-
     return 0;
 }
