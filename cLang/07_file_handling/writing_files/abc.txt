@@ -1,0 +1,2 @@
+Hello Manoj
+This is file writing in C
