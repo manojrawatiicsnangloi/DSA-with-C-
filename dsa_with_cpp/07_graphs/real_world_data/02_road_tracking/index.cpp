@@ -37,28 +37,54 @@ public:
 
 int main() {
 
-    // total nodes from dataset
-    Graph graph(1965206);
-
     ifstream file("road.txt");
 
     if (!file.is_open()) {
         cout << "File not found\n";
-        // return 0;
+        return 0;
     }
 
     string line;
 
+    int maxNode = -1;
+
+    // PASS 1 -> find maximum node id
     while (getline(file, line)) {
 
-        // skip comments
-    if (line.empty() || line[0] == '#') continue;
+        if (line.empty() || line[0] == '#')
+            continue;
 
         int u, v;
 
         stringstream ss(line);
 
-        ss >> u >> v;
+        if (!(ss >> u >> v))
+            continue;
+
+        maxNode = max(maxNode, max(u, v));
+    }
+
+    cout << "Max Node ID: " << maxNode << "\n";
+
+    // create graph
+    Graph graph(maxNode + 1);
+
+    // reset file pointer
+    file.clear();
+    file.seekg(0);
+
+    // PASS 2 -> load graph
+    while (getline(file, line)) {
+
+        if (line.empty() || line[0] == '#')
+            continue;
+
+        int u, v;
+
+        stringstream ss(line);
+
+        if (!(ss >> u >> v))
+            continue;
 
         graph.addEdge(u, v);
     }
