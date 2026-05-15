@@ -1,5 +1,7 @@
 #include <iostream>
 #include <unordered_map>
+#include <unordered_set>
+
 #include <vector>
 #include <fstream>
 #include <queue>
@@ -66,6 +68,27 @@ class graphs{
 
         cout << "Total Connections: " << connections / 2 << endl;
     }
+    void mutual_friend(int u, int v){
+        unordered_set <int> friends;
+
+        if (root.find(u) == root.end() ||
+            root.find(v) == root.end()) {
+            cout << "User not found\n";
+            return;
+        }
+
+        cout << "\nMutual Friends:\n";
+        for (auto &i :root[u]){
+            friends.insert(i.first);
+        }
+
+        for (auto &i:root[v]){
+            if (friends.find(i.first) != friends.end()){
+                cout << i.first << " \n";
+            }
+        }
+
+    }
 };
 
 int main(){
@@ -74,5 +97,6 @@ int main(){
     // g.printData();
     g.show_info();
     g.bfs(1);
+    g.mutual_friend(1, 23);
     return 0;
 }
