@@ -1,53 +1,72 @@
 #include <iostream>
 #include <vector>
-#include <unordered_map>
+
 using namespace std;
 
-class Graph {
+class MatrixGraph {
 
 private:
+
+    // Adjacency Matrix
     vector<vector<int>> matrix;
 
-    unordered_map<string, int> indexMap;
-
+    // Node names
     vector<string> nodes;
 
 public:
 
-    Graph() {
+    // Constructor
+    MatrixGraph(vector<string> nodeNames) {
 
-        nodes = {"A","B","C","D","E","F","G"};
+        nodes = nodeNames;
 
-        for (int i = 0; i < nodes.size(); i++) {
-            indexMap[nodes[i]] = i;
-        }
+        int n = nodes.size();
 
-        matrix.resize(7, vector<int>(7, 0));
+        matrix.resize(n, vector<int>(n, 0));
     }
 
+    // Find index of node
+    int getIndex(string node) {
+
+        for(int i = 0; i < nodes.size(); i++) {
+
+            if(nodes[i] == node)
+                return i;
+        }
+
+        return -1;
+    }
+
+    // Add Edge
     void addEdge(string u, string v) {
 
-        int i = indexMap[u];
-        int j = indexMap[v];
+        int i = getIndex(u);
+        int j = getIndex(v);
+
+        if(i == -1 || j == -1) {
+            cout << "Invalid Node\n";
+            return;
+        }
 
         matrix[i][j] = 1;
         matrix[j][i] = 1;
     }
 
+    // Print Matrix
     void printMatrix() {
 
         cout << "  ";
 
-        for (string node : nodes)
+        for(string node : nodes)
             cout << node << " ";
 
         cout << "\n";
 
-        for (int i = 0; i < matrix.size(); i++) {
+        for(int i = 0; i < matrix.size(); i++) {
 
             cout << nodes[i] << " ";
 
-            for (int j = 0; j < matrix[i].size(); j++) {
+            for(int j = 0; j < matrix[i].size(); j++) {
 
                 cout << matrix[i][j] << " ";
             }
@@ -59,17 +78,15 @@ public:
 
 int main() {
 
-    Graph gp;
+    vector<string> nodes = {
+        "A","B","C","D"
+    };
 
-    gp.addEdge("A","D");
-    gp.addEdge("A","E");
+    MatrixGraph gp(nodes);
+
+    gp.addEdge("A","B");
     gp.addEdge("A","C");
-    gp.addEdge("E","C");
-    gp.addEdge("C","B");
-    gp.addEdge("C","F");
-    gp.addEdge("C","G");
-    gp.addEdge("B","F");
-    gp.addEdge("G","F");
+    gp.addEdge("B","D");
 
     gp.printMatrix();
 
