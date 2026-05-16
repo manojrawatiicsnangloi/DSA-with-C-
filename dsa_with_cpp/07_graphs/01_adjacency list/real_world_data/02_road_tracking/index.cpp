@@ -36,26 +36,18 @@ public:
 };
 
 int main() {
-
     ifstream file("road.txt");
-
     if (!file.is_open()) {
         cout << "File not found\n";
         return 0;
     }
-
     string line;
-
     int maxNode = -1;
-
     // PASS 1 -> find maximum node id
     while (getline(file, line)) {
-
         if (line.empty() || line[0] == '#')
             continue;
-
         int u, v;
-
         stringstream ss(line);
 
         if (!(ss >> u >> v))
