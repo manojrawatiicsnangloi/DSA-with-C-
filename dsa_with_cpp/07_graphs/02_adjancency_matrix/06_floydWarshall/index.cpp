@@ -3,87 +3,61 @@
 #include <climits>
 using namespace std;
 
-class Graph
+class graphs
 {
-    vector<vector<int>> dist;
-    int V;
-
-public:
-
-    Graph(int v)
+    vector<vector<int>> root;
+  public : graphs(int size)
     {
-        V = v;
-
-        dist.resize(V,
-                    vector<int>(V, INT_MAX));
-
-        // self distance = 0
-        for (int i = 0; i < V; i++)
+        root.resize(size, vector<int>(size, INT_MAX));
+        for (int i = 0; i < size; i++)
         {
-            dist[i][i] = 0;
+            root[i][i] = 0;
         }
     }
 
     void addEdge(int u, int v, int w)
     {
-        dist[u][v] = w;
+        root[u][v] = w;
     }
 
-    void floydWarshall()
+    void floydWarshallAlgo()
     {
-        for (int k = 0; k < V; k++)
+        for (int k = 0; k < root.size(); k++)
         {
-            for (int i = 0; i < V; i++)
+            for (int i = 0; i < root.size(); i++)
             {
-                for (int j = 0; j < V; j++)
+                for (int j = 0; j < root.size(); j++)
                 {
-                    // avoid overflow
-                    if (dist[i][k] != INT_MAX &&
-                        dist[k][j] != INT_MAX)
+                    if (root[i][k] != INT_MAX && root[k][j] != INT_MAX)
                     {
-                        dist[i][j] = min(
-                            dist[i][j],
-                            dist[i][k] + dist[k][j]
-                        );
+                        root[i][j] = min(root[i][j], root[i][k] + root[k][j]);
                     }
                 }
             }
         }
     }
 
-    void print()
-    {
-        cout << "\nShortest Distance Matrix\n";
-
-        for (int i = 0; i < V; i++)
-        {
-
-            for (int j = 0; j < V; j++)
-            {
-
-                if (dist[i][j] == INT_MAX)
-                {
-                    cout << "INF ";
-                }
-                else
-                {
-                    cout << dist[i][j] << " ";
+    void printGraph(){
+        for (int i = 0; i < root.size(); i++){
+            for (int j = 0; j < root.size(); j++){
+                if(root[i][j] == INT_MAX){
+                    cout << "X ";
+                }else{
+                    cout << root[i][j] << " ";
                 }
             }
-
-            cout << "\n";
+            cout << endl;
         }
     }
 };
 
 int main()
 {
-    Graph g(4);
+    graphs g(4);
     g.addEdge(0, 1, 5);
     g.addEdge(0, 3, 10);
     g.addEdge(1, 2, 3);
     g.addEdge(2, 3, 1);
-    g.floydWarshall();
-    g.print();
+    g.printGraph();
     return 0;
 }
