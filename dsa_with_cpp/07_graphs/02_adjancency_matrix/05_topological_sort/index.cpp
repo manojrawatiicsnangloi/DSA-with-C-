@@ -1,125 +1,74 @@
 #include <iostream>
-#include <climits>
 #include <vector>
 #include <queue>
 #include <stack>
-#include <unordered_map>
 using namespace std;
 
-class graphs
+class matrix_graph
 {
-
-private:
-    unordered_map<string, vector<pair<string, int>>> root;
-    void _dfs(string &node, unordered_map<string, bool> &visited)
+    vector<vector<int>> root;
+    void _dfs(int u,stack<int> &st,  vector<bool> &vis)
     {
-        cout << node << " ";
-        for (pair<string, int> &i : root[node])
+        vis[u] = true;
+        for (int i = 0; i < root[u].size(); i++)
         {
-            if (!visited[i.first])
+            if (!vis[i] && root[u][i] == 1)
             {
-                visited[i.first] = true;
-                _dfs(i.first, visited);
+                _dfs(i, st, vis);
             }
         }
+        st.push(u);
     }
 
 public:
-    void insert(string u, string v, int w)
+    matrix_graph(int size)
     {
-        root[u].push_back({v, w});
-        if (root.find(v) == root.end())
-        {
-            root[v] = {};
-        }
+        root.resize(size, vector<int>(size, 0));
     }
-
-    void topological_dfs(string curr, unordered_map<string, bool> &vis, stack<string> &st)
+    void addEdge(int u, int v)
     {
-        vis[curr] = true;
-        for (pair<string, int> &i : root[curr])
-        {
-            if (!vis[i.first])
-            {
-                topological_dfs(i.first, vis, st);
-            }
-        }
-        st.push(curr);
-    }
-    void topologicalSort()
-    {
-        unordered_map<string, bool> vis;
-        stack<string> st;
-        for (auto &i : root)
-        {
-            cout << i.first << " ";
-            if (!vis[i.first])
-            {
-                topological_dfs(i.first, vis, st);
-            }
-        }
-        cout << "\n Topological Sort";
-        while (!st.empty())
-        {
-            cout << " " << st.top();
-            st.pop();
-        }
-    }
-
-    void dfs(string s)
-    {
-        unordered_map<string, bool> visited;
-        cout << "\nDFS ";
-        visited[s] = true;
-        _dfs(s, visited);
-    }
-
-    void bfs(string s)
-    {
-        cout << "\nBFS ";
-        queue<string> qu;
-        unordered_map<string, bool> visited;
-        qu.push(s);
-        visited[s] = true;
-        while (!qu.empty())
-        {
-            string node = qu.front();
-            qu.pop();
-            cout << node << " ";
-            for (pair<string, int> &i : root[node])
-            {
-                if (!visited[i.first])
-                {
-                    qu.push(i.first);
-                    visited[i.first] = true;
-                }
-            }
-        }
+        root[u][v] = 1;
     }
 
     void printGraph()
     {
-        for (auto &i : root)
+
+        for (int i = 0; i < root.size(); i++)
         {
-            cout << i.first << " : ";
-            for (pair<string, int> &j : i.second)
+
+            for (int j = 0; j < root[i].size(); j++)
             {
-                cout << "(" << j.first << ", " << j.second << ") ";
+
+                cout << root[i][j] << " ";
             }
+
             cout << "\n";
+        }
+    }
+
+    void topologicalSort() {
+        stack<int> st;
+        vector<bool> vis(root.size(), false);
+        for (int i = 0; i < root.size(); i++){
+            if (!vis[i]){
+                _dfs(i, st, vis);
+            }
+        }
+
+        while (!st.empty()){
+            cout << st.top() << " ";
+            st.pop();
         }
     }
 };
 
 int main()
 {
-    graphs g;
-    g.insert("0", "1", 0);
-    g.insert("1", "2", 0);
-    g.insert("3", "4", 0);
-    g.insert("3", "2", 0);
-    g.printGraph();
+    matrix_graph g(5);
+    g.addEdge(0, 1);
+    g.addEdge(1, 2);
+    g.addEdge(3, 4);
+    g.addEdge(3, 2);
     g.topologicalSort();
-
     return 0;
 }
